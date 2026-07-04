@@ -29,8 +29,6 @@ const getFragrance = async (req, res) => {
 
 // CREATE a fragrance
 const createFragrance = async (req, res) => {
-  const { name, fragranceHouse } = req.body;
-
   try {
     const fragrance = await Fragrance.create({ ...req.body });
     const populated = await fragrance.populate("fragranceHouse");

@@ -14,6 +14,7 @@ const fragranceHouseSchema = new Schema(
       min: 0,
       max: 5,
     },
+    upvotes: Number,
     image_url: {
       type: String,
     },
