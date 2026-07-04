@@ -10,7 +10,7 @@ const fragranceSchema = new Schema(
     },
     images: [
       {
-        image_url: { type: String },
+        type: String,
       },
     ],
     fragranceHouse: {

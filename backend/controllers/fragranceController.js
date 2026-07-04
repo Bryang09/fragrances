@@ -73,10 +73,31 @@ const updateFragrance = async (req, res) => {
 
   res.status(200).json(fragrance);
 };
+
+// UPDATE Fragrance Image
+const updateFragranceImages = async (req, res) => {
+  const { id } = req.params;
+  const { image_url } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid ID" });
+  }
+  const fragrance = await Fragrance.findOneAndUpdate(
+    { _id: id },
+    { $addToSet: { images: image_url } },
+    { returnDocument: "after" }
+  );
+  if (!fragrance) {
+    return res.status(404).json({ message: "Fragrance Not Found!" });
+  }
+
+  res.status(200).json(fragrance);
+};
 module.exports = {
   createFragrance,
   getFragrances,
   getFragrance,
   updateFragrance,
+  updateFragranceImages,
   deleteFragrance,
 };
