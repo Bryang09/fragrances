@@ -49,7 +49,7 @@ const fragranceSchema = new Schema(
       ref: "Fragrance",
     },
     dupes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Fragrance" }],
-    shoppingLinks: { type: String },
+    shoppingLink: { type: String },
   },
   { timestamps: true }
 );

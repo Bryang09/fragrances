@@ -6,6 +6,9 @@ const Nav = () => {
       <Link to="/">
         <h3>Fragrance</h3>
       </Link>
+      <Link to="/authorized">
+        <h3>Add Fragrance</h3>
+      </Link>
     </div>
   );
 };
