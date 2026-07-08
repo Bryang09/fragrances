@@ -1,4 +1,5 @@
 const Fragrance = require("../models/fragranceModel");
+const FragranceHouse = require("../models/fragranceHouseModel");
 const mongoose = require("mongoose");
 
 // GET all fragrances
@@ -30,7 +31,18 @@ const getFragrance = async (req, res) => {
 // CREATE a fragrance
 const createFragrance = async (req, res) => {
   try {
+    console.log(req.body.fragranceHouse);
     const fragrance = await Fragrance.create({ ...req.body });
+
+    if (FragranceHouse.exists({ _id: req.body.fragranceHouse })) {
+      const fragranceHouse = await FragranceHouse.findOneAndUpdate(
+        { _id: req.body.fragranceHouse },
+        { $addToSet: { fragrances: fragrance.id } },
+        { returnDocument: "after" }
+      );
+
+      fragranceHouse.populate("fragrances");
+    }
     const populated = await fragrance.populate("fragranceHouse");
     res.status(200).json(populated);
   } catch (error) {
