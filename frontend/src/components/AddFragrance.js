@@ -56,38 +56,39 @@ const AddFragrance = () => {
     console.log(data);
   };
 
-  console.log(fragranceHouses);
-
   return (
     <div className="form">
       <form onSubmit={submitionHandler}>
         <div className="form_section name">
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
             name="name"
             value={data.name}
             onChange={changeHandler}
+            required
           />
         </div>
         <div className="form_section images">
-          <label htmlFor="images">Image URL:</label>
+          <label htmlFor="images">Image URL</label>
           <input
             type="url"
             id="images"
             name="images"
             value={data.images}
             onChange={changeHandler}
+            required
           />
         </div>
         <div className="form_section fragranceHouse">
-          <label htmlFor="fragranceHouse">Fragrance House:</label>
+          <label htmlFor="fragranceHouse">Fragrance House</label>
           <select
             name="fragranceHouse"
             id="fragranceHouse"
             onChange={changeHandler}
             defaultValue={""}
+            required
           >
             <option value="">----Select Fragrance House----</option>
             {fragranceHouses &&
