@@ -29,10 +29,10 @@ const Home = () => {
     <div className="home">
       <div className="hero" />
       <div className="home-section">
-        <h2 className="section-header">Most Popular</h2>
+        <h2 className="section-header">Newest Additions</h2>
         <div className="home-container">
           {fragrances &&
-            fragrances.slice(0, 3).map((fragrance) => (
+            fragrances.map((fragrance) => (
               <div className="home-container-section" key={fragrance._id}>
                 <img
                   src={fragrance.images[0]}
