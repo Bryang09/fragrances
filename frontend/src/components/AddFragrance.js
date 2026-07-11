@@ -5,11 +5,13 @@ const AddFragrance = () => {
   const [data, setData] = useState({
     name: "",
     images: "",
-    fragranceHouse: "",
+    fragranceHouse: 0,
     original: false,
     shoppingLink: "",
   });
   const [fragranceHouses, setFragranceHouses] = useState(null);
+  const [newHouse, setNewHouse] = useState(false);
+  const [newHouseValue, setNewHouseValue] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,12 +34,7 @@ const AddFragrance = () => {
     }));
   };
 
-  const submitionHandler = async (e) => {
-    e.preventDefault();
-    console.log(data);
-
-    console.log(JSON.stringify(data));
-
+  const createFragrance = async (e) => {
     try {
       const response = await fetch("http://localhost:4001/api/fragrances", {
         method: "POST",
@@ -51,9 +48,32 @@ const AddFragrance = () => {
     } catch (error) {
       console.log(error);
     }
+  };
 
-    console.log("Submitted");
-    console.log(data);
+  const submitionHandler = async (e) => {
+    e.preventDefault();
+
+    if (newHouse === "other") {
+      try {
+        const response = await fetch(
+          "http://localhost:4001/api/fragrance_house",
+          {
+            method: "POST",
+            body: JSON.stringify({ name: newHouseValue }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const json = await response.json();
+
+        setData((prev) => ({
+          ...prev,
+          fragranceHouse: json._id,
+        }));
+        createFragrance();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -86,19 +106,32 @@ const AddFragrance = () => {
           <select
             name="fragranceHouse"
             id="fragranceHouse"
-            onChange={changeHandler}
+            onChange={(e) => setNewHouse(e.target.value)}
             defaultValue={""}
             required
           >
             <option value="">----Select Fragrance House----</option>
             {fragranceHouses &&
-              fragranceHouses.map((fh) => (
-                <option value={fh._id} key={fh._id}>
-                  {fh.name}
-                </option>
-              ))}
+              fragranceHouses
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((fh) => (
+                  <option value={fh._id} key={fh._id}>
+                    {fh.name}
+                  </option>
+                ))}
+            <option value="other">Other</option>
           </select>
         </div>
+        {newHouse === "other" && (
+          <div className="form_section other">
+            <label htmlFor="newFragranceHouse">Fragrance House:</label>
+            <input
+              type="text"
+              name="newFragranceHouse"
+              onChange={(e) => setNewHouseValue(e.target.value)}
+            />
+          </div>
+        )}
         <button type="submit">Submit</button>
       </form>
     </div>

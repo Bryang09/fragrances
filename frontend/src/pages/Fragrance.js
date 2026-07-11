@@ -26,8 +26,6 @@ const Fragrance = () => {
     getFragrance();
   }, []);
 
-  console.log(fragrance);
-
   return (
     <div className="fragrance_page">
       {fragrance && (

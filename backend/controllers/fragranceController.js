@@ -30,10 +30,24 @@ const getFragrance = async (req, res) => {
 
 // CREATE a fragrance
 const createFragrance = async (req, res) => {
+  console.log("Inside createFragrance");
   try {
-    console.log(req.body.fragranceHouse);
-    const fragrance = await Fragrance.create({ ...req.body });
+    if (req.body.fragranceHouse === "other") {
+      console.log("INSIDE OTHER");
+      console.log("CREATE NEW HOUSE");
 
+      const name = req.body.fragranceHouse;
+
+      try {
+        const fragranceHouse = await FragranceHouse.create({ name });
+        res.status(200).json(fragranceHouse);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+    }
+    const fragrance = await Fragrance.create({ ...req.body });
+    console.log("Inside try");
+    // Check If fragrance house exists
     if (FragranceHouse.exists({ _id: req.body.fragranceHouse })) {
       const fragranceHouse = await FragranceHouse.findOneAndUpdate(
         { _id: req.body.fragranceHouse },
@@ -42,6 +56,17 @@ const createFragrance = async (req, res) => {
       );
 
       fragranceHouse.populate("fragrances");
+    } else {
+      console.log("CREATE NEW HOUSE");
+
+      const name = req.body.fragranceHouse;
+
+      try {
+        const fragranceHouse = await FragranceHouse.create({ name });
+        res.status(200).json(fragranceHouse);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
     }
     const populated = await fragrance.populate("fragranceHouse");
     res.status(200).json(populated);

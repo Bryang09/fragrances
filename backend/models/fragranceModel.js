@@ -27,7 +27,10 @@ const fragranceSchema = new Schema(
       min: 0,
       max: 5,
     },
-    upvotes: Number,
+    upvotes: {
+      type: Number,
+      default: 0,
+    },
     comments: [
       {
         userId: {
@@ -50,6 +53,10 @@ const fragranceSchema = new Schema(
     },
     dupes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Fragrance" }],
     shoppingLink: { type: String },
+    gender: {
+      type: [String],
+      enum: ["male", "female", "unisex"],
+    },
   },
   { timestamps: true }
 );
