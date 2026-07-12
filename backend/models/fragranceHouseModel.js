@@ -13,12 +13,14 @@ const fragranceHouseSchema = new Schema(
       type: Number,
       min: 0,
       max: 5,
+      default: 0,
     },
-    upvotes: Number,
+    upvotes: { type: Number, default: 0 },
     image_url: {
       type: String,
     },
     fragrances: [{ type: mongoose.Schema.Types.ObjectId, ref: "Fragrance" }],
+    original: Boolean,
   },
   { timestamps: true }
 );
