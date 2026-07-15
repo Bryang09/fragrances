@@ -48,6 +48,7 @@ const FragranceHouseForm = (props) => {
 
   console.log(newHouseValue);
   console.log(house);
+  console.log(setHouse.original);
 
   return (
     <div className="form">
@@ -61,6 +62,7 @@ const FragranceHouseForm = (props) => {
             type="text"
             name="newFragranceHouse"
             onChange={(e) => setHouseName(e.target.value)}
+            required
           />
         </div>
         <div className="form_section original">
@@ -71,7 +73,8 @@ const FragranceHouseForm = (props) => {
               value="original"
               id="original"
               name="house"
-              onChange={() => setOriginalOrDupe("original")}
+              onClick={() => setOriginalOrDupe("original")}
+              required
             />
             <label htmlFor="original">Original</label>
           </div>

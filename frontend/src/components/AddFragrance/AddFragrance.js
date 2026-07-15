@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FragranceHouseForm from "./FragranceHouseForm";
+import Dupes from "./Dupes";
 
 const AddFragrance = (props) => {
   const [data, setData] = useState({
@@ -12,6 +13,7 @@ const AddFragrance = (props) => {
   });
   const [fragranceHouses, setFragranceHouses] = useState(null);
   const [newHouseValue, setNewHouseValue] = useState(null);
+  const [dupeOf, setDupeOf] = useState(null);
   const { form, setForm, newHouse, setNewHouse } = props;
 
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const AddFragrance = (props) => {
   }, []);
 
   const changeHandler = (e) => {
+    console.log(e.target.value);
+
     const { name, value } = e.target;
     setData((prev) => ({
       ...prev,
@@ -39,12 +43,23 @@ const AddFragrance = (props) => {
   const createFragrance = async (e) => {
     console.log(data);
 
+    if (dupeOf) {
+      setData((prev) => ({
+        ...prev,
+        dupeOf,
+      }));
+    }
+
+    console.log(data);
+
     try {
       const response = await fetch("http://localhost:4001/api/fragrances", {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       });
+
+      console.log(response);
 
       if (response.ok) {
         navigate("/");
@@ -63,19 +78,11 @@ const AddFragrance = (props) => {
     }
   };
 
-  const setOriginal = (value) => {
-    setData((prev) => ({
-      ...prev,
-      original: value,
-    }));
-  };
-
-  console.log(newHouse);
-  console.log(data.fragranceHouse);
-
   if (data.fragranceHouse === "other") {
     setForm(1);
   }
+
+  console.log(`dupe of ${dupeOf}`);
 
   return (
     <div className="form">
@@ -124,27 +131,28 @@ const AddFragrance = (props) => {
           />
         </div>
         <div className="form_section original">
-          <label htmlFor="original">Original?</label>
+          <label htmlFor="original">Original or Dupe?</label>
           <div className="radio_option">
             <input
               type="radio"
-              value="yes"
-              id="yes"
+              value="true"
+              id="original"
               name="original"
-              onChange={() => setOriginal(true)}
+              onChange={changeHandler}
             />
-            <label htmlFor="yes">Yes</label>
+            <label htmlFor="original">Original</label>
           </div>
           <div className="radio_option">
             <input
               type="radio"
-              value="no"
+              value="false"
               name="original"
-              onChange={() => setOriginal(false)}
+              onChange={changeHandler}
             />
-            <label htmlFor="no">No</label>
+            <label htmlFor="dupe">Dupe</label>
           </div>
         </div>
+        {data.original == "false" && <Dupes setDupeOf={setDupeOf} />}
 
         <button type="submit">Submit</button>
       </form>

@@ -61,3 +61,23 @@
     }
   }
 }
+
+.dupe_form {
+  .fragrance_list {
+    .fragrance {
+      display: flex;
+      background-color: #e4e4e4;
+      cursor: pointer;
+      transition: 0.4s ease;
+      &:hover {
+        background-color: #555792;
+        color: #fff;
+      }
+      h4 {
+        width: 50%;
+        font-weight: 100;
+        margin: 2px;
+      }
+    }
+  }
+}
