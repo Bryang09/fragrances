@@ -42,6 +42,7 @@ const AddFragrance = (props) => {
 
   const createFragrance = async (e) => {
     console.log(data);
+    console.log(dupeOf);
 
     if (dupeOf) {
       setData((prev) => ({

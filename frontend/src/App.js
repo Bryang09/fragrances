@@ -5,6 +5,7 @@ import Nav from "./components/Nav";
 import Authorized from "./pages/Authorized";
 import Fragrance from "./pages/Fragrance";
 import EditFragrances from "./pages/EditFragrances";
+import EditFragrance from "./pages/EditFragrance";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/authorized" element={<Authorized />} />
             <Route path="/fragrance/:id" element={<Fragrance />} />
             <Route path="/edit" element={<EditFragrances />} />
+            <Route path="/edit/:id" element={<EditFragrance />} />
           </Routes>
         </div>
       </BrowserRouter>

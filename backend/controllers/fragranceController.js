@@ -68,13 +68,20 @@ const createFragrance = async (req, res) => {
     // if there is a value for dupeOf, It will push the id to the original fragrances "dupes" array
     if (fragrance.dupeOf?._id) {
       console.log("INSIDE FRAGRANCE DUPE OF");
+      console.log(fragrance.dupeOf._id.toString());
 
-      const update = await Fragrance.findOneAndUpdate(
-        { _id: fragrance.dupeOf._id.toString() },
-        { $addToSet: { dupes: fragrance.id } },
-        { returnDocument: "after" }
-      );
+      try {
+        const update = await Fragrance.findOneAndUpdate(
+          { _id: fragrance.dupeOf._id.toString() },
+          { $addToSet: { dupes: fragrance.id } },
+          { returnDocument: "after" }
+        );
+        res.status(200).json(update);
+      } catch (error) {
+        console.log(error);
+      }
     }
+
     const populated = await fragrance.populate("fragranceHouse, dupeOf");
 
     res.status(200).json(populated);
@@ -110,13 +117,29 @@ const updateFragrance = async (req, res) => {
     {
       ...req.body,
     },
-    { new: true }
+    { returnDocument: "after" }
   ).populate(["fragranceHouse", "notes"]);
   if (!fragrance) {
     return res.status(404).json({ message: "Fragrance Not Found!" });
   }
+  // if there is a value for dupeOf, It will push the id to the original fragrances "dupes" array
+  if (fragrance.dupeOf?._id) {
+    console.log("INSIDE FRAGRANCE DUPE OF");
+    console.log(fragrance.dupeOf._id.toString());
 
-  res.status(200).json(fragrance);
+    try {
+      const update = await Fragrance.findOneAndUpdate(
+        { _id: fragrance.dupeOf._id.toString() },
+        { $addToSet: { dupes: fragrance.id } },
+        { returnDocument: "after" }
+      );
+      return res.status(200).json(update);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return res.status(200).json(fragrance);
 };
 
 // UPDATE Fragrance Image

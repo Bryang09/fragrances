@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-
 import "../styles/EditFragrances.css";
+
 import { useNavigate } from "react-router-dom";
 const EditFragrances = () => {
   const [fragrances, setFragrances] = useState(null);
   const [search, setSearch] = useState("");
+  const [refresh, setRefresh] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const EditFragrances = () => {
     };
 
     getFragrances();
-  }, []);
+  }, [refresh]);
 
   const onEdit = (id) => {
     navigate(`/edit/${id}`);
@@ -32,11 +34,19 @@ const EditFragrances = () => {
   const data = fragrances?.filter((fragrance) =>
     fragrance.name.toLowerCase().includes(search.toLowerCase())
   );
-  //   const filter = fragrances?.filter((fragrance) =>
-  //     fragrance.name.toLowerCase().includes(search.toLowerCase())
-  //   );
 
-  console.log(data?.length);
+  const deleteFragrance = async (id) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_URI}/fragrances/${id}`,
+      { method: "DELETE" },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log(response);
+
+    if (response.ok) {
+      setRefresh((prev) => prev + 1);
+    }
+  };
 
   return (
     <div className="editFragrances">
@@ -61,13 +71,20 @@ const EditFragrances = () => {
                       <h4>{f.fragranceHouse.name}</h4>
                     </span>
                     <span>
-                      <h4>{f.name}</h4>
+                      <h4>
+                        {f.name}
+                        <span
+                          className={f.original ? "type original" : "type dupe"}
+                        >
+                          {f.original ? "Original" : "Dupe"}
+                        </span>
+                      </h4>
                     </span>{" "}
                     <span className="icon">
                       <FaEdit onClick={() => onEdit(f._id)} />
                     </span>
                     <span className="icon trash">
-                      <FaTrashAlt />
+                      <FaTrashAlt onClick={() => deleteFragrance(f._id)} />
                     </span>
                   </div>
                 </div>

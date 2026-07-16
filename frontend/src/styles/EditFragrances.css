@@ -33,6 +33,9 @@
         display: flex;
         width: 100%;
 
+        span:nth-child(1) {
+          width: 40%;
+        }
         span {
           width: 100%;
           display: flex;
@@ -40,6 +43,23 @@
 
           h4 {
             font-weight: 200;
+            display: flex;
+
+            .type {
+              display: block;
+              text-align: center;
+              width: 70px;
+              margin-left: 5px;
+              border-radius: 10px;
+              padding: 2px;
+              color: #fff;
+            }
+            .original {
+              background-color: #00b4ff;
+            }
+            .dupe {
+              background-color: #47d592;
+            }
           }
         }
         .icon {
