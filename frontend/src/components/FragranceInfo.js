@@ -24,6 +24,7 @@ const FragranceInfo = (props) => {
         >
           {fragrance.fragranceHouse.name}
         </h4>
+        <h5>delete</h5>
       </div>
     </div>
   );

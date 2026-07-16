@@ -1,0 +1,64 @@
+.editFragrances {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  input {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #e0e0e0;
+    width: 50%;
+  }
+
+  .container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    .fragrance {
+      display: flex;
+      justify-content: space-evenly;
+      border-bottom: 1px solid #333;
+      .section {
+        margin: auto 0;
+      }
+      .names {
+        display: flex;
+        width: 100%;
+
+        span {
+          width: 100%;
+          display: flex;
+          align-items: center;
+
+          h4 {
+            font-weight: 200;
+          }
+        }
+        .icon {
+          width: 20%;
+
+          svg {
+            transition: 0.4s ease;
+            &:hover {
+              cursor: pointer;
+              color: aquamarine;
+            }
+          }
+        }
+        .trash {
+          svg:hover {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+}
