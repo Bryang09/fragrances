@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const EditFragrance = () => {
   const [fragrance, setFragrance] = useState(null);
   const [fragrances, setFragrances] = useState(null);
+  const [fragranceHouses, setFragranceHouses] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -29,8 +30,17 @@ const EditFragrance = () => {
       const json = await response.json();
       setFragrances(json);
     };
+
+    const getFragranceHouses = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_URI}/fragrance_house`
+      );
+      const json = await response.json();
+      setFragranceHouses(json);
+    };
     getFragrances();
     getFragrance();
+    getFragranceHouses();
   }, [id]);
 
   const changeHandler = (e) => {
@@ -61,7 +71,9 @@ const EditFragrance = () => {
     }
   };
 
-  const filter = fragrances?.filter((fragrance) => fragrance.original);
+  const filter = fragrances
+    ?.filter((fragrance) => fragrance.original)
+    .sort((a, b) => a.fragranceHouse.name.localeCompare(b.fragranceHouse.name));
 
   console.log(filter);
 
@@ -72,28 +84,37 @@ const EditFragrance = () => {
     <div className="editFragrance">
       {fragrance && (
         <form onSubmit={(e) => submitHandler(e)}>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            defaultValue={fragrance.name}
-            onChange={(e) => changeHandler(e)}
-          />
-          <label htmlFor="fragranceHouse">Fragrance House</label>
-          <input
-            type="text"
-            id="fragranceHouse"
-            defaultValue={fragrance.fragranceHouse.name}
-            readOnly
-          />
-          <label htmlFor="shoppingLinks">Shopping Link</label>
-          <input
-            type="url"
-            name="shoppingLinks"
-            id="shoppingLinks"
-            // defaultValue={fragrance.shoppingLink[0] || ""}
-          />
+          <div className="form_section">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              defaultValue={fragrance.name}
+              onChange={(e) => changeHandler(e)}
+            />
+          </div>
+          <div className="form_section">
+            <label htmlFor="fragranceHouse">Fragrance House</label>
+            <select
+              name="fragranceHouse"
+              defaultValue={fragrance.fragranceHouse._id}
+              onChange={(e) => changeHandler(e)}
+            >
+              <option defaultValue={""} disabled readOnly></option>
+              {fragranceHouses?.map((f) => {
+                return (
+                  <option key={f._id} value={f._id}>
+                    {f.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="form_section">
+            <label htmlFor="shoppingLinks">Shopping Link</label>
+            <input type="url" name="shoppingLinks" id="shoppingLinks" />
+          </div>
           <div className="form_section original">
             <label htmlFor="original">Original or Dupe?</label>
             <div className="radio_option">
@@ -103,6 +124,7 @@ const EditFragrance = () => {
                 id="original"
                 name="original"
                 onChange={(e) => changeHandler(e)}
+                defaultChecked={fragrance.original ? true : false}
                 required
               />
               <label htmlFor="original">Original</label>
@@ -112,6 +134,7 @@ const EditFragrance = () => {
                 type="radio"
                 value="false"
                 name="original"
+                defaultChecked={fragrance.original ? false : true}
                 onChange={(e) => changeHandler(e)}
               />
               <label htmlFor="original">Dupe</label>
@@ -123,32 +146,37 @@ const EditFragrance = () => {
               name="gender"
               id="gender"
               onChange={(e) => changeHandler(e)}
+              defaultValue={fragrance?.gender || ""}
             >
-              <option defaultValue="" disabled></option>
+              <option value="" disabled></option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="unisex">Unisex</option>
             </select>
-            {fragrance.original === "false" && (
+          </div>{" "}
+          {fragrance.original === "false" ||
+            (fragrance.original === false && (
               <div className="form_section">
                 <label htmlFor="dupeOf">Dupe Of</label>
                 <select
                   name="dupeOf"
                   id="dupeOf"
                   onChange={(e) => changeHandler(e)}
+                  defaultValue={""}
+                  required
                 >
-                  {filter.map((f) => {
+                  <option readOnly disabled></option>
+                  {filter?.map((f) => {
                     return (
                       <option key={f._id} value={f._id}>
-                        {f.name}
+                        {f.fragranceHouse.name} - {f.name}
                       </option>
                     );
                   })}
                 </select>
               </div>
-            )}
-            <button>Submit</button>
-          </div>
+            ))}
+          <button>Submit</button>
         </form>
       )}
     </div>

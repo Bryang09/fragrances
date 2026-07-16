@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // GET all fragrance houses
 const getAllFragranceHouse = async (req, res) => {
   const fragranceHouse = await FragranceHouse.find({})
-    .sort({ createdAt: -1 })
+    .sort({ name: +1 })
     .populate("fragrances");
   res.status(200).json(fragranceHouse);
 };

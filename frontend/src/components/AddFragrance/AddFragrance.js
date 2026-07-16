@@ -10,6 +10,7 @@ const AddFragrance = (props) => {
     fragranceHouse: 0,
     original: null,
     shoppingLink: "",
+    dupeOf: null,
   });
   const [fragranceHouses, setFragranceHouses] = useState(null);
   const [newHouseValue, setNewHouseValue] = useState(null);
@@ -153,7 +154,7 @@ const AddFragrance = (props) => {
             <label htmlFor="dupe">Dupe</label>
           </div>
         </div>
-        {data.original == "false" && <Dupes setDupeOf={setDupeOf} />}
+        {data.original == "false" && <Dupes changeHandler={changeHandler} />}
 
         <button type="submit">Submit</button>
       </form>

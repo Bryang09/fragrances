@@ -63,6 +63,8 @@
 }
 
 .dupe_form {
+  display: flex;
+  flex-direction: column;
   .fragrance_list {
     .fragrance {
       display: flex;

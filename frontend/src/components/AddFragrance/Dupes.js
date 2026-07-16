@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Dupes = (props) => {
   const [fragrances, setFragrances] = useState(null);
   const [search, setSearch] = useState("");
-  const { setDupeOf } = props;
+  const { changeHandler } = props;
 
   useEffect(() => {
     const getFragrances = async () => {
@@ -32,27 +32,24 @@ const Dupes = (props) => {
 
   return (
     <div className="dupe_form">
-      <h1>What Scent Is It a Dupe Of?</h1>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      {filter &&
-        filter.map((fragrance) => {
-          return (
-            <div className="fragrance_list" key={fragrance._id}>
-              <div
-                className="fragrance"
-                onClick={() => setDupeOf(fragrance._id)}
-              >
-                <h4>{fragrance.fragranceHouse.name}</h4>
-                <h4>{fragrance.name}</h4>
-              </div>
-            </div>
-          );
-        })}
+      <h2>What Scent Is It a Dupe Of?</h2>
+      <select
+        name="dupeOf"
+        id="dupeOf"
+        defaultValue={""}
+        required
+        onChange={changeHandler}
+      >
+        <option readOnly disabled></option>
+        {filter &&
+          filter.map((fragrance) => {
+            return (
+              <option key={fragrance._id} value={fragrance._id}>
+                {fragrance.fragranceHouse.name} - {fragrance.name}
+              </option>
+            );
+          })}
+      </select>
     </div>
   );
 };

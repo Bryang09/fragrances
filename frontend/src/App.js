@@ -6,6 +6,7 @@ import Authorized from "./pages/Authorized";
 import Fragrance from "./pages/Fragrance";
 import EditFragrances from "./pages/EditFragrances";
 import EditFragrance from "./pages/EditFragrance";
+import FragranceHouse from "./pages/FragranceHouse";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/fragrance/:id" element={<Fragrance />} />
             <Route path="/edit" element={<EditFragrances />} />
             <Route path="/edit/:id" element={<EditFragrance />} />
+            <Route path="/fragrance_house/:id" element={<FragranceHouse />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -82,3 +82,42 @@
     }
   }
 }
+
+.editFragrance {
+  display: flex;
+  justify-content: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+
+    .form_section {
+      display: flex;
+      margin: 10px 0;
+
+      label {
+        width: 30%;
+      }
+      input[type="text"] {
+        width: 70%;
+        height: 100%;
+      }
+      input[type="url"] {
+        width: 70%;
+        height: 100%;
+      }
+      select {
+        width: 70%;
+      }
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 200px;
+      margin: 20px 0;
+      background-color: #47d592;
+      border: 0;
+      border-radius: 8px;
+    }
+  }
+}

@@ -38,7 +38,7 @@ const createFragrance = async (req, res) => {
       const name = req.body.fragranceHouse;
       try {
         const fragranceHouse = await FragranceHouse.create({ name });
-        res.status(200).json(fragranceHouse);
+        return res.status(200).json(fragranceHouse);
       } catch (error) {
         res.status(400).json({ message: error.message });
       }
@@ -60,7 +60,7 @@ const createFragrance = async (req, res) => {
 
       try {
         const fragranceHouse = await FragranceHouse.create({ name });
-        res.status(200).json(fragranceHouse);
+        return res.status(200).json(fragranceHouse);
       } catch (error) {
         res.status(400).json({ message: error.message });
       }
@@ -76,7 +76,7 @@ const createFragrance = async (req, res) => {
           { $addToSet: { dupes: fragrance.id } },
           { returnDocument: "after" }
         );
-        res.status(200).json(update);
+        return res.status(200).json(update);
       } catch (error) {
         console.log(error);
       }
@@ -84,7 +84,7 @@ const createFragrance = async (req, res) => {
 
     const populated = await fragrance.populate("fragranceHouse, dupeOf");
 
-    res.status(200).json(populated);
+    return res.status(200).json(populated);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -97,17 +97,30 @@ const deleteFragrance = async (req, res) => {
     return res.status(404).json({ error: "Invalid ID" });
   }
   const fragrance = await Fragrance.findByIdAndDelete({ _id: id });
+  console.log(fragrance);
+  console.log(fragrance._id);
 
+  const update = await FragranceHouse.findOneAndUpdate(
+    { _id: fragrance.fragranceHouse._id },
+    { $pull: { fragrances: fragrance._id } },
+    { returnDocument: "after" }
+  );
+
+  if (res.ok) {
+    console.log("INSIDE DELETE A FRAGRANCE");
+    return res.status(200).json(update);
+  }
   if (!fragrance) {
     return res.status(404).json({ message: "Fragrance Not Found!" });
   }
 
-  res.status(200).json(fragrance);
+  return res.status(200).json(fragrance);
 };
 
 // UPDATE a fragrance
 const updateFragrance = async (req, res) => {
   const { id } = req.params;
+  console.log(req.body.fragranceHouse._id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Invalid ID" });
@@ -122,6 +135,18 @@ const updateFragrance = async (req, res) => {
   if (!fragrance) {
     return res.status(404).json({ message: "Fragrance Not Found!" });
   }
+  console.log("INSIDE UPDTAEFRAGRANCE");
+  console.log(fragrance);
+
+  if (req.body.fragranceHouse._id) {
+    const updateFragranceHouse = await FragranceHouse.findOneAndUpdate(
+      { _id: req.body.fragranceHouse._id },
+      { $push: { fragrances: id } },
+      { returnDocument: "after" }
+    );
+    return res.status(200).json(updateFragranceHouse);
+  }
+
   // if there is a value for dupeOf, It will push the id to the original fragrances "dupes" array
   if (fragrance.dupeOf?._id) {
     console.log("INSIDE FRAGRANCE DUPE OF");
