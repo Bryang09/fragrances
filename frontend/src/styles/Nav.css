@@ -1,0 +1,49 @@
+.nav {
+  display: flex;
+  width: 100vw;
+  background-color: #070727;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  .logo {
+    width: 20%;
+    margin-left: 5%;
+
+    h3 {
+      cursor: pointer;
+      transition: 0.4s ease;
+      &:hover {
+        color: #47d592;
+      }
+    }
+  }
+}
+
+.links {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+
+  ul {
+    list-style: none;
+    display: flex;
+    padding-right: 5%;
+
+    li {
+      margin: 0 5px;
+      border: 1px solid #333;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: 0.4s ease;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #47d592;
+      }
+    }
+  }
+}

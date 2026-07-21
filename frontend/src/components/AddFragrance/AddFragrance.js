@@ -39,6 +39,7 @@ const AddFragrance = (props) => {
       ...prev,
       [name]: value,
     }));
+    console.log(data);
   };
 
   const createFragrance = async (e) => {
@@ -50,6 +51,8 @@ const AddFragrance = (props) => {
         ...prev,
         dupeOf,
       }));
+    }
+    if (!dupeOf) {
     }
 
     console.log(data);

@@ -55,6 +55,7 @@ const EditFragrance = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log(fragrance);
+    console.log(fragrance.fragranceHouse._id);
 
     const response = await fetch(
       `${process.env.REACT_APP_URI}/fragrances/${id}`,
@@ -112,8 +113,13 @@ const EditFragrance = () => {
             </select>
           </div>
           <div className="form_section">
-            <label htmlFor="shoppingLinks">Shopping Link</label>
-            <input type="url" name="shoppingLinks" id="shoppingLinks" />
+            <label htmlFor="shoppingLink">Shopping Link</label>
+            <input
+              type="url"
+              name="shoppingLink"
+              id="shoppingLink"
+              onChange={(e) => changeHandler(e)}
+            />
           </div>
           <div className="form_section original">
             <label htmlFor="original">Original or Dupe?</label>

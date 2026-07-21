@@ -1,18 +1,26 @@
-const { Link } = require("react-router-dom");
+import "../styles/Nav.css";
+
+const { Link, useNavigate } = require("react-router-dom");
 
 const Nav = () => {
+  const navigate = useNavigate();
+
+  const navigationHandler = (to) => {
+    navigate(`${to}`);
+  };
   return (
-    <div className="nav">
-      <Link to="/">
-        <h3>Fragrance</h3>
-      </Link>
-      <Link to="/authorized">
-        <h3>Add Fragrance</h3>
-      </Link>
-      <Link to="/edit">
-        <h3>Edit Fragrances</h3>
-      </Link>
-    </div>
+    <nav className="nav">
+      <div className="logo">
+        <h3 onClick={() => navigationHandler("/")}>Fragrance</h3>
+      </div>
+
+      <div className="links">
+        <ul>
+          <li onClick={() => navigationHandler("authorized")}>Add Fragrance</li>
+          <li onClick={() => navigationHandler("edit")}>Edit Fragrances</li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 

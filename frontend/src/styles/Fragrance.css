@@ -1,21 +1,92 @@
 .fragrance_page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   .info_section {
     display: flex;
-    width: 80vw;
+    width: 90vw;
     justify-content: center;
-    height: 80vh;
+    align-items: center;
+    /* height: 40vh; */
     .image {
-      width: 50%;
-      img {
-        width: 100%;
-      }
+      max-width: 500px;
+    }
+    img {
+      max-width: 500px;
     }
     .details {
+      width: 50%;
+      h3 {
+        font-weight: 200;
+        span {
+          font-size: 15px;
+
+          border-radius: 5px;
+          padding: 2px 5px;
+        }
+        .original {
+          border: 1px solid #00b4ff;
+          background-color: #00b4ff;
+        }
+        .dupe {
+          border: 1px solid #47d592;
+          background-color: #47d592;
+        }
+      }
+
+      h5 {
+        border: 1px solid #333;
+        text-align: center;
+        padding: 5px;
+        border-radius: 4px;
+        transition: 0.4s ease;
+        cursor: pointer;
+        width: 150px;
+
+        &:hover {
+          background: #47d592;
+        }
+      }
       h4 {
         color: #3333333e;
         cursor: pointer;
         transition: 0.4s ease;
         font-weight: 200;
+      }
+    }
+  }
+}
+
+.info_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dupeList {
+  text-align: center;
+  .fragrances {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    .fragrance {
+      width: 200px;
+      img {
+        width: 200px;
+        height: 200px;
+        transition: 0.4s ease;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+      h4 {
+        cursor: pointer;
+        transition: 0.4s ease;
+
+        &:hover {
+          color: #47d592;
+        }
       }
     }
   }

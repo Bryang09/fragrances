@@ -1,0 +1,78 @@
+.fragranceHouse {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  margin: 0 auto;
+
+  h3 {
+    text-align: center;
+  }
+
+  .fragrances {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    /* justify-content: center; */
+
+    .fragrance {
+      width: 30%;
+      margin: 1%;
+      text-align: center;
+      transition: 0.4s ease;
+
+      img {
+        width: 100%;
+        transition: 0.4s ease;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+      h4 {
+        cursor: pointer;
+        transition: 0.4s ease;
+        font-weight: 200;
+
+        &:hover {
+          color: #47d592;
+        }
+      }
+      h5 {
+        display: block;
+        border: 1px solid #333;
+        width: 50%;
+        justify-self: center;
+        padding: 5px;
+        border-radius: 5px;
+        font-weight: 200;
+        cursor: pointer;
+        transition: 0.4s ease;
+
+        &:hover {
+          background-color: #47d592;
+          border-color: #47d592;
+        }
+      }
+    }
+
+    .title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .male {
+        color: #198fbc;
+        transition: filter 0.4s ease;
+      }
+      .female {
+        color: palevioletred;
+      }
+      svg {
+        cursor: pointer;
+        &:hover {
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+}

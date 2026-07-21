@@ -120,7 +120,6 @@ const deleteFragrance = async (req, res) => {
 // UPDATE a fragrance
 const updateFragrance = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body.fragranceHouse._id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Invalid ID" });
@@ -132,37 +131,40 @@ const updateFragrance = async (req, res) => {
     },
     { returnDocument: "after" }
   ).populate(["fragranceHouse", "notes"]);
+
   if (!fragrance) {
     return res.status(404).json({ message: "Fragrance Not Found!" });
   }
   console.log("INSIDE UPDTAEFRAGRANCE");
-  console.log(fragrance);
 
   if (req.body.fragranceHouse._id) {
     const updateFragranceHouse = await FragranceHouse.findOneAndUpdate(
       { _id: req.body.fragranceHouse._id },
-      { $push: { fragrances: id } },
+      { $addToSet: { fragrances: id } },
       { returnDocument: "after" }
     );
+    // if there is a value for dupeOf, It will push the id to the original fragrances "dupes" array
+    if (req.body.dupeOf?._id) {
+      console.log("INSIDE FRAGRANCE DUPE OF");
+      console.log(fragrance.dupeOf._id.toString());
+
+      try {
+        const update = await Fragrance.findOneAndUpdate(
+          { _id: fragrance.dupeOf._id.toString() },
+          { $addToSet: { dupes: fragrance.id } },
+          { returnDocument: "after" }
+        ).populate("dupes.fragranceHouse");
+        return res.status(200).json(update);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     return res.status(200).json(updateFragranceHouse);
   }
 
-  // if there is a value for dupeOf, It will push the id to the original fragrances "dupes" array
-  if (fragrance.dupeOf?._id) {
-    console.log("INSIDE FRAGRANCE DUPE OF");
-    console.log(fragrance.dupeOf._id.toString());
-
-    try {
-      const update = await Fragrance.findOneAndUpdate(
-        { _id: fragrance.dupeOf._id.toString() },
-        { $addToSet: { dupes: fragrance.id } },
-        { returnDocument: "after" }
-      );
-      return res.status(200).json(update);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  console.log("asdfasdkf");
+  console.log(req.body.dupeOf._id === true);
 
   return res.status(200).json(fragrance);
 };

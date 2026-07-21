@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FaVenusMars, FaVenus, FaMars } from "react-icons/fa6";
+
+import { useNavigate, useParams } from "react-router-dom";
+
+import "../styles/FragranceHouse.css";
 
 const FragranceHouse = () => {
   const [fragranceHouse, setFragranceHouse] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getFragrance = async () => {
@@ -20,6 +25,16 @@ const FragranceHouse = () => {
     getFragrance();
   }, [id]);
 
+  const handleClick = (id) => {
+    navigate(`/fragrance/${id}`);
+  };
+
+  const handleShopping = (link) => {
+    const shopping = link ? link : "https://google.com";
+    console.log(shopping);
+
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
   console.log(fragranceHouse);
 
   return (
@@ -28,9 +43,31 @@ const FragranceHouse = () => {
         <div>
           <h3>{fragranceHouse.name}</h3>
 
-          <div>
+          <div className="fragrances">
             {fragranceHouse.fragrances.map((f) => {
-              return <h4 key={f._id}>{f.name}</h4>;
+              return (
+                <div className="fragrance" key={f._id}>
+                  <img
+                    src={f.images[0]}
+                    alt={f.name}
+                    onClick={() => handleClick(f._id)}
+                  />
+                  <div className="title">
+                    <h4 onClick={() => handleClick(f._id)}>{f.name}</h4>
+                    <span>
+                      {f.gender === "unisex" ? (
+                        <FaVenusMars className="unisex" />
+                      ) : f.gender === "male" ? (
+                        <FaVenus className={f.gender} />
+                      ) : (
+                        <FaMars className={f.gender} />
+                      )}
+                    </span>
+                  </div>
+
+                  <h5 onClick={() => handleShopping(f.shoppingLink)}>Shop</h5>
+                </div>
+              );
             })}
           </div>
         </div>
