@@ -10,6 +10,7 @@ const PORT = process.env.PORT;
 const fragranceRoutes = require("./routes/fragranceRoutes");
 const fragranceHouseRoutes = require("./routes/fragranceHouseRoutes");
 const noteRoutes = require("./routes/notesRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 app.use("/api/fragrances", fragranceRoutes);
 app.use("/api/fragrance_house", fragranceHouseRoutes);
 app.use("/api/notes", noteRoutes);
+app.use("/api/user", userRoutes);
 
 // connect to db
 mongoose

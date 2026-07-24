@@ -5,7 +5,6 @@ import "../styles/Authorized.css";
 import FragranceHouseForm from "../components/AddFragrance/FragranceHouseForm";
 
 const Authorized = () => {
-  const [selected, setSelected] = useState(null);
   const [form, setForm] = useState(0);
   const [newHouse, setNewHouse] = useState(false);
 
@@ -13,16 +12,6 @@ const Authorized = () => {
 
   return (
     <div className="authorizedPage">
-      <div className="options">
-        <h2 className="option" onClick={() => setSelected("add")}>
-          Add Fragrance
-        </h2>
-        <h2 className="option" onClick={() => setSelected("edit")}>
-          Edit Fragrance
-        </h2>
-      </div>
-      <h1>Authorized</h1>
-
       {form === 0 ? (
         <AddFragrance
           form={form}
